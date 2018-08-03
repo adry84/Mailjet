@@ -20,6 +20,22 @@
         </unique>
     </table>
 
+    <table name="mailjet_contacts_list" namespace="Mailjet\Model">
+        <column name="id" autoIncrement="true"  type="INTEGER" required="true" primaryKey="true" />
+        <column name="lang_id" required="true" type="INTEGER" />
+        <column name="name" type="VARCHAR" size="255" required="true" />
+
+        <index name="idx_mailjet_contacts_list_name">
+            <index-column name="name" />
+        </index>
+        <unique name="lang_id_UNIQUE">
+            <unique-column name="lang_id" />
+        </unique>
+        <foreign-key foreignTable="lang" name="fk_mailjet_contacts_list_lang_id" onDelete="CASCADE" onUpdate="RESTRICT">
+            <reference foreign="id" local="lang_id" />
+        </foreign-key>
+    </table>
+
     <!--
     See propel documentation on http://propelorm.org for all information about schema file
     -->

@@ -13,6 +13,7 @@
 namespace Mailjet;
 
 use Propel\Runtime\Connection\ConnectionInterface;
+use Symfony\Component\Finder\Finder;
 use Thelia\Install\Database;
 use Thelia\Model\Config;
 use Thelia\Model\ConfigQuery;
@@ -32,6 +33,7 @@ class Mailjet extends BaseModule
     const CONFIG_API_SECRET = "mailjet.api.secret";
     const CONFIG_API_WS_ADDRESS = "mail.api.webservice_address";
     const CONFIG_THROW_EXCEPTION_ON_ERROR = "mailjet.throw_exception_on_error";
+
 
     public function postActivation(ConnectionInterface $con = null)
     {
@@ -54,8 +56,8 @@ class Mailjet extends BaseModule
 
             if (null === ConfigQuery::read(static::CONFIG_NEWSLETTER_LIST)) {
                 $this->createConfigValue(static::CONFIG_NEWSLETTER_LIST, [
-                    "fr_FR" => "ALT de la liste de diffusion mailjet",
-                    "en_US" => "Diffusion list ALT of mailjet",
+                    "fr_FR" => "ALT de la liste de diffusion mailjet par défaut",
+                    "en_US" => "Default diffusion list ALT of mailjet",
                 ]);
             }
 
@@ -96,5 +98,23 @@ class Mailjet extends BaseModule
         }
 
         $config->save();
+    }
+
+    public function update($currentVersion, $newVersion, ConnectionInterface $con = null)
+    {
+        $finderSql = Finder::create()
+            ->name('*.sql')
+            ->depth(0)
+            ->sortByName()
+            ->in(__DIR__ . DS . 'Config'. DS .'sql'. DS . 'update');
+
+        $database = new Database($con);
+
+        /** @var \SplFileInfo $file */
+        foreach ($finderSql as $file) {
+            if (version_compare($currentVersion, $file->getBasename('.sql'), '<')) {
+                $database->insertSql(null, [$file->getPathname()]);
+            }
+        }
     }
 }

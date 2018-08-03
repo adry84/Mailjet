@@ -19,6 +19,7 @@ namespace Mailjet\Api;
  */
 class MailjetClient
 {
+    const RESOURCE_CONTACTS_LIST = "contactslist";
     const RESOURCE_CONTACT = "contact";
     const RESOURCE_LIST_RECIPIENT = "listrecipient";
 

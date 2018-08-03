@@ -6,6 +6,7 @@
 
     <forms>
         <form name="mailjet.configuration" class="Mailjet\Form\MailjetConfigurationForm" />
+        <form name="mailjet.configuration.contacts.lists" class="Mailjet\Form\MailjetContactsListsForm" />
     </forms>
 
     <services>
@@ -15,6 +16,10 @@
             <tag name="kernel.event_subscriber" />
         </service>
     </services>
+
+    <loops>
+        <loop class="Mailjet\Loop\MailjetContactsList" name="mailjet_contacts_list" />
+    </loops>
 
     <hooks>
         <hook id="mailjet.configuration.hook" class="Mailjet\Hook\HookManager" scope="request">

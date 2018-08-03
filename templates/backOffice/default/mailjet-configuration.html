@@ -1,33 +1,29 @@
-<div class="row">
-    <div class="col-md-12 general-block-decorator">
-        <div class="title">
-            {intl d="mailjet.bo.default" l="Configure mailjet"}
+<div class="general-block-decorator">
+    <div class="title">
+        <p>{intl d="mailjet.bo.default" l="Mailjet"}</p>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <!-- Tab menu -->
+            <ul id="tabbed-menu" class="nav nav-tabs">
+                <li class="active">
+                    <a data-toggle="tab" href="#mailjet-config">{intl d="mailjet.bo.default" l="Configure mailjet"}</a>
+                </li>
+                <li class="{if $tab eq "1"}active{/if}">
+                    <a data-toggle="tab" href="#mailjet-contacts-lists">{intl d="mailjet.bo.default" l="Contacts lists"}</a>
+                </li>
+            </ul>
+
+            <div class="tab-content">
+
+                <div id="mailjet-config" class="tab-pane active form-container">
+                    {include "mailjet-configuration-default.html"}
+                </div>
+
+                <div id="mailjet-contacts-lists" class="tab-pane {if $tab eq 1}active{/if} form-container">
+                    {include "mailjet-configuration-contacts-lists.html"}
+                </div>
+            </div>
         </div>
-
-        {if $success}
-        <div class="alert alert-success">
-            {intl l="Configuration correctly saved" d="mailjet.bo.default"}
-        </div>
-    {/if}
-
-    {form name="mailjet.configuration"}
-    <form action="{$current_url}" method="post">
-        {include "includes/inner-form-toolbar.html" hide_flags = 1 close_url={url path='/admin/modules'}}
-        <br/>
-
-        {form_field field="success_url"}
-            <input type="hidden" name="{$name}" value="{url path='/admin/modules'}" />
-        {/form_field}
-
-        {form_hidden_fields}
-
-        {render_form_field field="api_key"}
-        {render_form_field field="api_secret"}
-        {render_form_field field="ws_address"}
-        {render_form_field field="newsletter_list"}
-        {render_form_field field="exception_on_errors"}
-
-        {include "includes/inner-form-toolbar.html" hide_flags = 1 close_url={url path='/admin/modules'} page_bottom = 1}
-    </form>
-    {/form}
+    </div>
 </div>

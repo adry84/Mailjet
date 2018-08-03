@@ -69,7 +69,7 @@ class MailjetConfigurationForm extends BaseForm
                 "data" => ConfigQuery::read(Mailjet::CONFIG_API_SECRET)
             ))
             ->add("newsletter_list", "text", array(
-                "label" => $translator->trans("Newsletter list address name", [], Mailjet::MESSAGE_DOMAIN),
+                "label" => $translator->trans("Newsletter default list address name", [], Mailjet::MESSAGE_DOMAIN),
                 "required" => true,
                 "constraints" => array(
                     new NotBlank(),
